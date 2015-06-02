@@ -4,7 +4,7 @@ import pygame
 from pygame.locals import *
 
 sheet = tools.SpriteSheet('resources/spritesheet.png')
-sprite = sheet.get_image((0, 0, 16, 16))
+sprites = sheet.get_sheet((0, 0, 16, 16), 21, 5)
 
 pygame.init()
 main_clock = pygame.time.Clock()
@@ -31,5 +31,8 @@ while True:
                 pass
         
         pygame.display.update()
-    display_surface.blit(sprite, (0, 0))
+    display_surface.blit(sprites[2][10], (0, 0))
+    display_surface.blit(sprites[2][11], (16, 0))
+    display_surface.blit(sprites[3][10], (0, 16))
+    display_surface.blit(sprites[3][11], (16, 16))
     main_clock.tick(60)
