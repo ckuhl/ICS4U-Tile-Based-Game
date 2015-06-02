@@ -9,6 +9,11 @@ class SpriteSheet(object):
             print('Unsupported image format!')
 
     def delta(self, coords):
+        """
+        Gives the change in x and y of a given pair of coordinates.
+        :param coords: Integer 4-tuple
+        :return: Integer tuple
+        """
         return coords[2] - coords[0], coords[3] - coords[1]
 
     def get_image(self, coords):
