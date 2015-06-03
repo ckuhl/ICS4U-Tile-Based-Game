@@ -26,15 +26,15 @@ class SpriteSheet(object):
         sprite.blit(self.sheet, (0, 0), coords)
         return sprite
 
-    def get_line(self, coords, nsprites):
+    def get_line(self, coords, nx):
         """
         Calls get_image for a row of sprites
         :param coords: Integer 4-tuple: The coordinates of the first sprite
-        :param nsprites: Integer: The number of sprites in the row.
+        :param nx: Integer: The number of sprites in the row.
         :return: A list of PyGame surface objects
         """
         dx = self.delta(coords)[0]
-        return [self.get_image((coords[0] + dx * x, coords[1], coords[2] + dx * x, coords[3])) for x in range(nsprites)]
+        return [self.get_image((coords[0] + dx * x, coords[1], coords[2] + dx * x, coords[3])) for x in range(nx)]
 
     def get_sheet(self, coords, nx, ny):
         """

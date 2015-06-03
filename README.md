@@ -15,12 +15,15 @@ A tile-based game, made to demonstrate the various skills learned in ICS4U:
  * creating a primitive AI
 
 ## Documentation
-The various components of this game are all documented within their code, in the *tools* module.
+### Background Map
+The background map is an array of hex numbers corresponding to the position of a sprite in the sprite sheet. The sprites
+are encoded sequentially, left-to-right and top-to-bottom.
 
-The resources file contains all the resources that the game requires. At this time they are:
-
- * the spritesheet
- * the background map
-    * which contains hex numbers corresponding to a sprite in the sprite sheet, numbered left-to-right and top-to-bottom
- * and the boundary map
-    * which contains decimal numbers, the first of which defines the level of a tile, and the second its characteristics
+### Boundary Map
+The boundary map is an array of two digit decimal numbers. The first corresponds to the height of the piece, with the
+second corresponding to the nature of the tile:
+Markdown | Less
+--- | ---
+0 | Wall
+1 | Ground
+2 | Door
