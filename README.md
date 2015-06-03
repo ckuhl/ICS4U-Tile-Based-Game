@@ -21,9 +21,4 @@ are encoded sequentially, left-to-right and top-to-bottom.
 
 ### Boundary Map
 The boundary map is an array of two digit decimal numbers. The first corresponds to the height of the piece, with the
-second corresponding to the nature of the tile:
-Markdown | Less
---- | ---
-0 | Wall
-1 | Ground
-2 | Door
+second corresponding to the nature of the tile: 0 is a wall, 1 walkable tile, and 2 a door.
