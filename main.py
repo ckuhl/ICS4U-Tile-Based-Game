@@ -8,9 +8,9 @@ resolution = (511, 511)
 
 # Initialize background
 background = pygame.Surface(resolution)
-sheet = tools.SpriteSheet('resources/spritesheet.png')
+sheet = tools.SpriteSheet('resources/background1.png')
 background_sprites = sheet.get_sheet((0, 0, 16, 16), 21, 5)
-background_map = tools.Screen('resources/level1.txt', background_sprites)
+background_map = tools.Screen('resources/level1.background', background_sprites)
 
 for n, i in enumerate(background_map.textmap):
     for m, j in enumerate(i):
