@@ -8,8 +8,10 @@ resolution = (511, 511)
 
 # Initialize background
 sheet = tools.SpriteSheet('resources/background1.png')
-background_sprites = sheet.get_sheet((0, 0, 16, 16), 21, 5)
-background_map = tools.Screen('resources/level1.background', background_sprites, resolution)
+background_sprites = sheet.get_sheet((0, 0, 16, 16), 10, 10)
+
+background_map = tools.Screen(resolution, (32, 32))
+background_map.background('resources/level1.background', background_sprites)
 
 # initialize PyGame
 pygame.init()

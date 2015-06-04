@@ -16,9 +16,9 @@ A tile-based game, made to demonstrate the various skills learned in ICS4U:
 
 ## Documentation
 ### Background Map
-The background map is an array of hex numbers corresponding to the position of a sprite in the sprite sheet. The sprites
-are encoded sequentially, left-to-right and top-to-bottom.
+The background map is an array of numbers corresponding to the position of a sprite in the sprite sheet. The sprites
+are encoded sequentially, left-to-right and top-to-bottom, 00 to 99.
 
 ### Boundary Map
-The boundary map is an array of two digit decimal numbers. The first corresponds to the height of the piece, with the
+The boundary map is an array of two digit numbers. The first digit corresponds to the height of the piece, with the
 second corresponding to the nature of the tile: 0 is a wall, 1 walkable tile, and 2 a door.
