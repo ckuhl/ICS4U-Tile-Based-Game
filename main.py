@@ -13,6 +13,9 @@ background_sprites = sheet.get_sheet((0, 0, 16, 16), 10, 10)
 background_map = tools.Screen(resolution, (32, 32))
 background_map.background('resources/level1.background', background_sprites)
 
+# initialize level boundaries
+bounds = tools.BoundMap('resources\level1.boundaries', (32, 32))
+
 # initialize PyGame
 pygame.init()
 main_clock = pygame.time.Clock()

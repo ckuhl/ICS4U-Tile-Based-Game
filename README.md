@@ -20,5 +20,17 @@ The background map is an array of numbers corresponding to the position of a spr
 are encoded sequentially, left-to-right and top-to-bottom, 00 to 99.
 
 ### Boundary Map
-The boundary map is an array of two digit numbers. The first digit corresponds to the height of the piece, with the
-second corresponding to the nature of the tile: 0 is a wall, 1 walkable tile, and 2 a door.
+The boundary map is list of rectangles defining the areas which can be walked on (floors and doors).
+
+## The `tools` module
+### The `SpriteSheet` Class
+This class allows the import and subdivision of sprite sheets into individual sprites. `get_image` and `get_sheet` are
+the two main methods to use.
+
+### The `BoundMap` Class
+This class creates a list of all the boundaries in a level (ie. the surfaces you can walk on) and allows you to check if
+a given rectangle is contained by any of these boundaries.
+
+### The `Screen` Class
+This class creates a pygame.Surface object of a given size. The method `Screen.background` draws a background to the
+surface given a sprite sheet and map of the background.
