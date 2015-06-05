@@ -22,7 +22,7 @@ class SpriteSheet(object):
         :param coords: (x1, y1, x2, y2) tuple of the sprites coordinates
         :return: Pygame surface object
         """
-        sprite = pygame.Surface(self.delta(coords))
+        sprite = pygame.Surface(self.delta(coords), pygame.SRCALPHA)
         sprite.blit(self.sheet, (0, 0), coords)
         return sprite
 

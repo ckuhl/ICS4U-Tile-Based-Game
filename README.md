@@ -34,3 +34,11 @@ a given rectangle is contained by any of these boundaries.
 ### The `Screen` Class
 This class creates a pygame.Surface object of a given size. The method `Screen.background` draws a background to the
 surface given a sprite sheet and map of the background.
+
+### The `Entity` Class
+This class defines an entity that interacts with a given boundmap. The method `Entity.update` allows the entity to be
+updated to the next sprite (if animated) and update the direction of the entity (North, East, South, West).
+
+## Art sources
+background1.png by Buch on OpenGameArt, public domain
+player.png by Skylar1146 on OpenGameArt, public domain

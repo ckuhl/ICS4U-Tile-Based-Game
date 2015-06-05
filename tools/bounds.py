@@ -7,15 +7,14 @@ class BoundMap(object):
         Creates a list of (type, boundary) tuples given an input boundary map and the size of each tile
         :param boundmap: File containing a type and two points per line
         :param tile_size: String, one char
-        :param resolution: Integer tuple
         :return: None
         """
         # convert coordinates to integers
         with open(boundmap, 'r') as file:
             self.bounds = []
 
+            # create rectangle from coordinates
             for line in file:
-                # create rectangle from coordinates
                 rect = self.create_bounds([line[0]], [int(x) for x in line.strip().split()[1:]], tile_size)
                 self.bounds.append((line[0], rect))
 
@@ -28,21 +27,20 @@ class BoundMap(object):
         :return: pygame.Rect
         """
         tx, ty = tile_size[0], tile_size[1]
-
-        # half height for door (due to entering it)
         if bound_type == 'D':
-            return pygame.Rect(coords[0] * tx, coords[1] * ty + ty // 2, (coords[2] + 1) * tx - 1, (coords[3] + 1) * ty - 1)
+            return pygame.Rect(coords[0] * tx, coords[1] * ty, tx, ty)
 
         else:
-            return pygame.Rect(coords[0] * tx, coords[1] * ty, (coords[2] + 1) * tx - 1, (coords[3] + 1) * ty - 1)
+            return pygame.Rect(coords[0] * tx, coords[1] * ty, tx * (coords[2] - coords[0] + 1), ty * (coords[3] - coords[1] + 1))
 
-    def membership(self, sprite_rect):
+    def membership(self, sprite_pos, tile_size):
         """
         Checks if a given sprite exists within the given boundaries.
-        :param sprite_rect: pygame.Rect
+        :param sprite_pos: integer tuple: top left corner of sprite
+        :param tile_size: integer tuple: width and height of sprite
         :return: Boolean
         """
         for i in self.bounds:
-            if i[1].contains(sprite_rect):
+            if i[1].contains(sprite_pos, tile_size):
                 return True
         return False
