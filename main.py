@@ -26,6 +26,7 @@ pygame.init()
 main_clock = pygame.time.Clock()
 display_surface = pygame.display.set_mode(resolution)
 pygame.display.set_caption('ICS4U Tile Based Game')
+pygame.display.set_icon(pygame.image.load('resources/window_icon.png'))
 
 display_surface.blit(background_map.screen, (0, 0))  # draw background to screen
 

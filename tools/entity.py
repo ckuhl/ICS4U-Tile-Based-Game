@@ -40,6 +40,8 @@ class Entity(object):
         if direction is not None:
             self.dir = direction
 
+# TODO: Create subclasses of Entity for the different entities (character, enemy etc.)
+
 
 class Entities(object):
     def __init__(self, entitylist, tile_size):

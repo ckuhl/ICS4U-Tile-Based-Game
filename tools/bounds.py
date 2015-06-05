@@ -43,8 +43,8 @@ class BoundMap(object):
     def point_membership(self, point, height):
         """
         Checks if a point exists within a certain bounds
-        :param point: integer tuple
-        :param height: list of rectangles to exist within
+        :param point: Integer tuple
+        :param height: List of pygame.Rect to check against
         :return: Boolean
         """
         for i in self.height_dict[height]:
@@ -55,9 +55,10 @@ class BoundMap(object):
     def rect_membership(self, sprite_pos, tile_size, height):
         """
         Checks if a rectangle exists within
-        :param sprite_pos:
-        :param tile_size:
-        :return:
+        :param sprite_pos: Top left corner of the sprite
+        :param tile_size: Width and height of the sprite
+        :param height: Height that the given entity exists at (1 - 9)
+        :return: Boolean
         """
 
         sx, sy, tx, ty = sprite_pos[0], sprite_pos[1], tile_size[0], tile_size[1]
@@ -67,3 +68,5 @@ class BoundMap(object):
             if not self.point_membership(i, height):
                 return False
         return True
+
+    # TODO: Implement a method between levels (ie stairs)

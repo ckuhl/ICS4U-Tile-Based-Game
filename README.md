@@ -29,7 +29,9 @@ the two main methods to use.
 
 ### The `BoundMap` Class
 This class creates a list of all the boundaries in a level (ie. the surfaces you can walk on) and allows you to check if
-a given rectangle is contained by any of these boundaries.
+a given rectangle is contained by any of these boundaries. Because a rectangle can lie partially on two different
+rectangles and still be completely within the BoundMap, this is done by checking if each corner of the rectangle lies
+within the boundaries.
 
 ### The `Screen` Class
 This class creates a pygame.Surface object of a given size. The method `Screen.background` draws a background to the
@@ -42,3 +44,4 @@ updated to the next sprite (if animated) and update the direction of the entity 
 ## Art sources
 background1.png by Buch on OpenGameArt, public domain
 player.png by Skylar1146 on OpenGameArt, public domain
+icon.png by k-u-h-l

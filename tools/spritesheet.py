@@ -42,7 +42,7 @@ class SpriteSheet(object):
         :param coords: Integer 4-tuple: The coordinates of the top left sprite.
         :param nx: Integer: The number of sprites in the x direction.
         :param ny: Integer: The number of sprites in the y direction.
-        :return: A list of list of Pyame surface objects.
+        :return: A list of list of pygame surface objects.
         """
         dx, dy = self.delta(coords)
         return [self.get_line((coords[0], coords[1] + dy * x, coords[2], coords[3] + dy * x), nx) for x in range(ny)]
