@@ -19,7 +19,7 @@ bounds = tools.BoundMap('resources\level1.boundaries', tile_size)
 
 # initialize entities
 player_sprites = tools.SpriteSheet('resources/player.png').get_sheet((0, 0, 16, 16), 8, 3)
-player = tools.Entity((6, 6), tile_size, [player_sprites[0][:4], player_sprites[1][4:], player_sprites[0][4:], player_sprites[1][:4]])
+player = tools.Entity((6, 6), tile_size, [player_sprites[0][:4], player_sprites[1][4:], player_sprites[0][4:], player_sprites[1][:4]], updates_per_frame=6)
 
 # initialize PyGame
 pygame.init()
@@ -38,19 +38,19 @@ while True:
     # handle keyboard input
     keys = pygame.key.get_pressed()
     if keys[K_UP]:
-        if bounds.membership((player.x, player.y - 1), tile_size):
+        if bounds.rect_membership((player.x, player.y - 1), tile_size, player.height):
             player.y -= 1
             player.update(0)
     elif keys[K_DOWN]:
-        if bounds.membership((player.x, player.y + 1), tile_size):
+        if bounds.rect_membership((player.x, player.y + 1), tile_size, player.height):
             player.y += 1
             player.update(2)
     if keys[K_LEFT]:
-        if bounds.membership((player.x - 1, player.y), tile_size):
+        if bounds.rect_membership((player.x - 1, player.y), tile_size, player.height):
             player.x -= 1
             player.update(3)
     elif keys[K_RIGHT]:
-        if bounds.membership((player.x + 1, player.y), tile_size):
+        if bounds.rect_membership((player.x + 1, player.y), tile_size, player.height):
             player.x += 1
             player.update(1)
 
