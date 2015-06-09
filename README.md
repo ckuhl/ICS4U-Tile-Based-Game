@@ -24,6 +24,10 @@ The boundary map is list of rectangles defining the areas which can be walked on
 character code defining it. The first is the level (1 - 9) and the second defines the type of bound: 0 is ground, D is
 door and A is stairs (ascending), B is stairs (descending).
 
+### Entity list
+The entity list is a list of entity IDs and their positions. These IDs are used to determine which kind of entity to
+create.
+
 ## The `tools` module
 ### The `SpriteSheet` Class
 This class allows the import and subdivision of sprite sheets into individual sprites. `get_image` and `get_sheet` are
@@ -40,10 +44,13 @@ This class creates a pygame.Surface object of a given size. The method `Screen.b
 surface given a sprite sheet and map of the background.
 
 ### The `Entity` Class
-This class defines an entity that interacts with a given boundmap. The method `Entity.update` allows the entity to be
-updated to the next sprite (if animated) and update the direction of the entity (North, East, South, West).
+This class defines a list of entities, and the individual entities that interact with the boundmap. The method
+`Entity.update` allows the entity to be updated to the next sprite (if animated) and update the direction of the entity
+(North, East, South, West).
 
 ## Art sources
 background1.png by Buch on OpenGameArt, public domain
+
 player.png by Skylar1146 on OpenGameArt, public domain
+
 icon.png by k-u-h-l

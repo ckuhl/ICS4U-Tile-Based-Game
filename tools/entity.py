@@ -1,7 +1,43 @@
 import pygame
+import tools.spritesheet
+
+
+class Entities(object):
+    def __init__(self, entity_file):
+        """
+        Populates a list of entities from the entities file
+        :param entity_file: The name of the entity file to read from.
+        :return: Entities object
+        """
+        self.entity_list = []
+        self.player = None
+
+        with open(entity_file, 'r') as file:
+            for line in file:
+                arguments = line.strip().split()
+                entity_id, pos = arguments[0], (int(arguments[1]), int(arguments[2]))
+                self.entity_list.append(self.create_entity(entity_id, pos))
+
+    def create_entity(self, entity_id, pos):
+        """
+        A glorified switch statement, it creates entities according to their ID
+        :param entity_id: 1 char string -- determines which kind of entity to create
+        :param pos: (x, y) integer tuple -- position of the top left corner of the entity
+        :return: Entity subclass
+        """
+        if entity_id == 'P':
+            self.player = Player(pos)
+        else:
+            return "Entity type does not exist"
 
 
 class Entity(object):
+    """
+    The parent class for entities, it initializes the entities position, level (height), and direction.
+    Animations/sprites are also initialized if they exist.
+
+    Entity.update(dir) updates the sprite's position, direction, and current frame (if animated)
+    """
     def __init__(self, position, tile_size, sprites=None, updates_per_frame=1):
         """
         Creates basic Entity object, containing x, y position, direction, and sprites (if necessary)
@@ -40,12 +76,20 @@ class Entity(object):
         if direction is not None:
             self.dir = direction
 
-# TODO: Create subclasses of Entity for the different entities (character, enemy etc.)
 
+class Player(Entity):
+    """
+    The Player class contains additional variables and sprites.
+    """
+    def __init__(self, position):
+        """
+        Initializes the entity, from position
+        :param position: (x, y) integer tuple -- top left of the sprite
+        :return: None
+        """
+        player_sheet = tools.SpriteSheet('resources/player.png').get_sheet((0, 0, 16, 16), 8, 3)
+        sprite_list = [player_sheet[0][:4], player_sheet[1][4:], player_sheet[0][4:], player_sheet[1][:4]]
 
-class Entities(object):
-    def __init__(self, entitylist, tile_size):
-        # TODO: work in progress, should be analogous to BoundList when finished
-        with open(entitylist, 'r') as file:
-            entities = [x.strip().split() for x in file]
-        print(entities)
+        Entity.__init__(self, position, tile_size=(32, 32), sprites=sprite_list, updates_per_frame=6)
+
+# TODO: Create entity subclass for doors

@@ -15,11 +15,11 @@ background_map = tools.Screen(resolution, tile_size)
 background_map.background('resources/level1.background', background_sprites)
 
 # initialize level boundaries
-bounds = tools.BoundMap('resources\level1.boundaries', tile_size)
+bounds = tools.BoundMap('resources/level1.boundaries', tile_size)
 
 # initialize entities
-player_sprites = tools.SpriteSheet('resources/player.png').get_sheet((0, 0, 16, 16), 8, 3)
-player = tools.Entity((6, 6), tile_size, [player_sprites[0][:4], player_sprites[1][4:], player_sprites[0][4:], player_sprites[1][:4]], updates_per_frame=6)
+entities = tools.Entities('resources/level1.entities')
+player = entities.player
 
 # initialize PyGame
 pygame.init()

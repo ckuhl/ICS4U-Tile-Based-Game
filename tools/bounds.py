@@ -16,19 +16,17 @@ class BoundMap(object):
             # create rectangle from coordinates
             for line in file:
                 line = line.strip().split()
-                level, type, coords = int(line[0][0]), line[0][1:], [int(x) for x in line[1:]]
-                rect = self.create_bounds(type, coords, tile_size)
+                level, bound_type, coords = int(line[0][0]), line[0][1:], [int(x) for x in line[1:]]
+                rect = self.create_bounds(bound_type, coords, tile_size)
 
                 # add bounds to proper levels
-                if type == 'A':
-                    self.add_to_dict(rect, type, level + 1)
-                elif type == 'B':
-                    self.add_to_dict(rect, type, level - 1)
+                if bound_type == 'A':
+                    self.add_to_dict(rect, bound_type, level + 1)
+                elif bound_type == 'B':
+                    self.add_to_dict(rect, bound_type, level - 1)
 
                 else:
-                    self.add_to_dict(rect, type, level)
-
-                print(self.height_dict)
+                    self.add_to_dict(rect, bound_type, level)
 
     def create_bounds(self, bound_type, coords, tile_size):
         """
@@ -89,15 +87,15 @@ class BoundMap(object):
 
         return True
 
-    def add_to_dict(self, rect, type, height):
+    def add_to_dict(self, rect, bound_type, height):
         """
         Appends (Rect, type) tuple to list of bounds in bounds_dict[height]
         :param rect: The rectangle of bounds
-        :param type: The type of bounds (door, stairs, etc)
+        :param bound_type: The type of bounds (door, stairs, etc)
         :param height: Height level of the current bound
         :return: None
         """
         try:
-            self.height_dict[height].append((rect, type))
+            self.height_dict[height].append((rect, bound_type))
         except KeyError:
-            self.height_dict[height] = [(rect, type)]
+            self.height_dict[height] = [(rect, bound_type)]
