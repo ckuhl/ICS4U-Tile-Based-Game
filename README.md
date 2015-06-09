@@ -20,7 +20,9 @@ The background map is an array of numbers corresponding to the position of a spr
 are encoded sequentially, left-to-right and top-to-bottom, 00 to 99.
 
 ### Boundary Map
-The boundary map is list of rectangles defining the areas which can be walked on (floors and doors).
+The boundary map is list of rectangles defining the areas which can be walked on (floors and doors). Each area has a two
+character code defining it. The first is the level (1 - 9) and the second defines the type of bound: 0 is ground, D is
+door and A is stairs (ascending), B is stairs (descending).
 
 ## The `tools` module
 ### The `SpriteSheet` Class

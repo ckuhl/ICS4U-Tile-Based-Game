@@ -19,11 +19,16 @@ class BoundMap(object):
                 level, type, coords = int(line[0][0]), line[0][1:], [int(x) for x in line[1:]]
                 rect = self.create_bounds(type, coords, tile_size)
 
-                # add to height_dict
-                try:
-                    self.height_dict[level].append((rect, type))
-                except KeyError:
-                    self.height_dict[level] = [(rect, type)]
+                # add bounds to proper levels
+                if type == 'A':
+                    self.add_to_dict(rect, type, level + 1)
+                elif type == 'B':
+                    self.add_to_dict(rect, type, level - 1)
+
+                else:
+                    self.add_to_dict(rect, type, level)
+
+                print(self.height_dict)
 
     def create_bounds(self, bound_type, coords, tile_size):
         """
@@ -34,8 +39,9 @@ class BoundMap(object):
         :return: pygame.Rect
         """
         tx, ty = tile_size[0], tile_size[1]
+        # makes boundary 8 px shorter (removed from top)
         if bound_type[0] == 'D':
-            return pygame.Rect(coords[0] * tx, coords[1] * ty, tx, ty)
+            return pygame.Rect(coords[0] * tx, coords[1] * ty + 8, tx, ty - 8)
 
         else:
             return pygame.Rect(coords[0] * tx, coords[1] * ty, tx * (coords[2] - coords[0] + 1), ty * (coords[3] - coords[1] + 1))
@@ -44,29 +50,54 @@ class BoundMap(object):
         """
         Checks if a point exists within a certain bounds
         :param point: Integer tuple
-        :param height: List of pygame.Rect to check against
+        :param height: The height level to check against.
         :return: Boolean
         """
         for i in self.height_dict[height]:
             if i[0].collidepoint(point):
-                return True
+                return i[1]
         return False
 
-    def rect_membership(self, sprite_pos, tile_size, height):
+    def rect_membership(self, sprite_pos, tile_size, entity):
         """
         Checks if a rectangle exists within
         :param sprite_pos: Top left corner of the sprite
         :param tile_size: Width and height of the sprite
-        :param height: Height that the given entity exists at (1 - 9)
+        :param entity: The entity to check the position of
         :return: Boolean
         """
-
+        height = entity.height
         sx, sy, tx, ty = sprite_pos[0], sprite_pos[1], tile_size[0], tile_size[1]
         points = [sprite_pos, (sx + tx - 1, sy), (sx, sy + ty - 1), (sx + tx - 1, sy + ty - 1)]
 
-        for i in points:
-            if not self.point_membership(i, height):
-                return False
+        # set comprehension of  where the corners land
+        corner_types = [self.point_membership(x, height) for x in points]
+
+        # if the front is ascending stairs, check if rear is up the level
+        if corner_types[2:] == ['B', 'B']:
+            if False not in [self.point_membership(x, height) for x in points[:2]]:
+                entity.height += 1
+
+        # if the front is down the stairs, check if the rear is down the level
+        elif corner_types[:2] == ['A', 'A']:
+            if False not in [self.point_membership(x, height) for x in points[2:]]:
+                entity.height -= 1
+
+        # if any corner is out of bounds
+        if False in corner_types:
+            return False
+
         return True
 
-    # TODO: Implement a method between levels (ie stairs)
+    def add_to_dict(self, rect, type, height):
+        """
+        Appends (Rect, type) tuple to list of bounds in bounds_dict[height]
+        :param rect: The rectangle of bounds
+        :param type: The type of bounds (door, stairs, etc)
+        :param height: Height level of the current bound
+        :return: None
+        """
+        try:
+            self.height_dict[height].append((rect, type))
+        except KeyError:
+            self.height_dict[height] = [(rect, type)]

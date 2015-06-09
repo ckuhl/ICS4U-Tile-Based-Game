@@ -26,7 +26,7 @@ pygame.init()
 main_clock = pygame.time.Clock()
 display_surface = pygame.display.set_mode(resolution)
 pygame.display.set_caption('ICS4U Tile Based Game')
-pygame.display.set_icon(pygame.image.load('resources/window_icon.png'))
+pygame.display.set_icon(pygame.image.load('resources/icon.png'))
 
 display_surface.blit(background_map.screen, (0, 0))  # draw background to screen
 
@@ -39,25 +39,25 @@ while True:
     # handle keyboard input
     keys = pygame.key.get_pressed()
     if keys[K_UP]:
-        if bounds.rect_membership((player.x, player.y - 1), tile_size, player.height):
+        if bounds.rect_membership((player.x, player.y - 1), tile_size, player):
             player.y -= 1
-            player.update(0)
+        player.update(0)
     elif keys[K_DOWN]:
-        if bounds.rect_membership((player.x, player.y + 1), tile_size, player.height):
+        if bounds.rect_membership((player.x, player.y + 1), tile_size, player):
             player.y += 1
-            player.update(2)
+        player.update(2)
     if keys[K_LEFT]:
-        if bounds.rect_membership((player.x - 1, player.y), tile_size, player.height):
+        if bounds.rect_membership((player.x - 1, player.y), tile_size, player):
             player.x -= 1
-            player.update(3)
+        player.update(3)
     elif keys[K_RIGHT]:
-        if bounds.rect_membership((player.x + 1, player.y), tile_size, player.height):
+        if bounds.rect_membership((player.x + 1, player.y), tile_size, player):
             player.x += 1
-            player.update(1)
+        player.update(1)
 
     # back-to-front blitting of images
     display_surface.blit(background_map.screen, (0, 0))
-    display_surface.blit(player.current_sprite, (player.x, player.y))
+    display_surface.blit(player.current_sprite, (player.x, player.y - 8))  # y shifted down 8 px to look proper
 
     pygame.display.update()
     main_clock.tick(60)
