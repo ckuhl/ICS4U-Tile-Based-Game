@@ -37,27 +37,37 @@ while True:
             sys.exit()
 
     # handle keyboard input
+    diagonal_check = False
     keys = pygame.key.get_pressed()
     if keys[K_UP]:
         if bounds.rect_membership((player.x, player.y - 1), tile_size, player):
             player.y -= 1
+        diagonal_check = True
         player.update(0)
+
     elif keys[K_DOWN]:
         if bounds.rect_membership((player.x, player.y + 1), tile_size, player):
             player.y += 1
+        diagonal_check = True
         player.update(2)
+
     if keys[K_LEFT]:
         if bounds.rect_membership((player.x - 1, player.y), tile_size, player):
             player.x -= 1
-        player.update(3)
+        if not diagonal_check:
+            player.update(3)
+
     elif keys[K_RIGHT]:
         if bounds.rect_membership((player.x + 1, player.y), tile_size, player):
             player.x += 1
-        player.update(1)
+        if not diagonal_check:
+            player.update(1)
 
     # back-to-front blitting of images
     display_surface.blit(background_map.screen, (0, 0))
     display_surface.blit(player.current_sprite, (player.x, player.y - 8))  # y shifted down 8 px to look proper
+
+    # TODO: Handle multiple levels, and transitions between levels (activated by Doors)
 
     pygame.display.update()
     main_clock.tick(60)

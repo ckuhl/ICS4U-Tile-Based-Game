@@ -16,7 +16,10 @@ class Entities(object):
             for line in file:
                 arguments = line.strip().split()
                 entity_id, pos = arguments[0], (int(arguments[1]), int(arguments[2]))
-                self.entity_list.append(self.create_entity(entity_id, pos))
+                # Todo: Add way to identify where a door goes (ie what level to open)
+                entity = self.create_entity(entity_id, pos)
+                if entity:
+                    self.entity_list.append(entity)
 
     def create_entity(self, entity_id, pos):
         """
@@ -27,9 +30,14 @@ class Entities(object):
         """
         if entity_id == 'P':
             self.player = Player(pos)
+            return False
+        elif entity_id == 'D':
+            return Door(pos)
         else:
-            return "Entity type does not exist"
+            raise KeyError
 
+    def collisions(self):
+        return [self.entity_list[x] for x in self.player.rect.collidelistall([x.rect for x in self.entity_list])]
 
 class Entity(object):
     """
@@ -38,7 +46,7 @@ class Entity(object):
 
     Entity.update(dir) updates the sprite's position, direction, and current frame (if animated)
     """
-    def __init__(self, position, tile_size, sprites=None, updates_per_frame=1):
+    def __init__(self, position, tile_size, dimensions=None, sprites=None, updates_per_frame=1):
         """
         Creates basic Entity object, containing x, y position, direction, and sprites (if necessary)
         :param position: integer tuple
@@ -49,8 +57,16 @@ class Entity(object):
         """
         self.x = position[0] * tile_size[0]
         self.y = position[1] * tile_size[1]
+        if dimensions is None:
+            self.width = tile_size[0]
+            self.length = tile_size[1]
+        else:
+            self.width = dimensions[0]
+            self.length = dimensions[1]
+
         self.dir = 2
         self.height = 1
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.length)
 
         if sprites:
             self.sprites = [[pygame.transform.scale2x(x) for x in y] for y in sprites]
@@ -67,7 +83,7 @@ class Entity(object):
         :return: None
         """
         self.update_counter += 1
-
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.length)
         if self.update_counter == self.updates_per_frame:
             self.update_counter = 0
             self.current_frame = (self.current_frame + 1) % (self.frames)
@@ -92,4 +108,11 @@ class Player(Entity):
 
         Entity.__init__(self, position, tile_size=(32, 32), sprites=sprite_list, updates_per_frame=6)
 
-# TODO: Create entity subclass for doors
+class Door(Entity):
+    """
+    The Door class is invisible, and serves only to detect if the place has collided with it.
+    It is a 1px tall horizontal line at the top of the Door boundary
+    """
+    def __init__(self, position):
+        entity_position = position
+        Entity.__init__(self, entity_position, tile_size=(32, 32), dimensions=(32, 9), updates_per_frame=1)
