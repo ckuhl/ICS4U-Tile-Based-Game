@@ -1,3 +1,28 @@
+"""
+Project expectations:
+A1.3 demonstrate the ability to use non-numeric comparisons (e.g., strings, comparable interface) in computer programs;
+A1.5 describe and use one-dimensional arrays of compound data types (e.g., objects, structures, records) in a computer
+     program.
+A2.2 use modular design concepts that support reusable code (e.g., encapsulation, inheritance, method overloading,
+     method overriding, polymorphism);
+A3.1 demonstrate the ability to read from, and write to, an external file (e.g., text file, binary file, database, XML
+     file) from within a computer program;
+A3.3 create subprograms to insert and delete array elements;
+A4.1 work independently, using support documentation (e.g., IDE Help, tutorials, websites, user manuals), to resolve
+     syntax issues during software development;
+A4.3 create fully documented program code according to industry standards (e.g., doc comments, docstrings, block
+     comments, line comments);
+A4.4 create clear and maintainable external user documentation (e.g., Help files, training materials, user manuals).
+
+B1.7 demonstrate the ability to use shared resources to manage source code effectively and securely (e.g., organize
+     software components using shared files and folders with timestamps, and proper version control).
+B2.2 demonstrate the ability to meet project goals and deadlines by managing individual time during a group project;
+
+C1.1 decompose a problem into modules, classes, or abstract data types (e.g., stack, queue, dictionary) using an
+     object-oriented design methodology (e.g., CRC [Class Responsibility Collaborator] or UML [Unified Modeling Language]);
+C1.4 apply the principle of reusability in program design (e.g., in modules, subprograms, classes, methods, and
+     inheritance).
+"""
 import tools
 import sys
 import pygame
