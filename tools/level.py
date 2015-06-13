@@ -1,8 +1,16 @@
-import pygame
 import tools.screen
+
 
 class Level(object):
     def __init__(self, level, resolution, tile_size, player):
+        """
+        A master class to hold all of the components of a level.
+        :param level: string -- the name of the level
+        :param resolution: integer tuple -- size of screen (width, height)
+        :param tile_size: integer tuple -- size of a tile (width, height)
+        :param player: tools.Player
+        :return: None
+        """
         # initialize background
         self.resolution = resolution
         self.fader = 0

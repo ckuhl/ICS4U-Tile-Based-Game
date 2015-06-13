@@ -32,10 +32,9 @@ from pygame.locals import *
 resolution = (511, 511)
 tile_size = (32, 32)
 
-
 player = tools.Player()
-
 level = tools.Level('level1', resolution, tile_size, player)
+
 # initialize PyGame
 pygame.init()
 main_clock = pygame.time.Clock()
@@ -43,11 +42,12 @@ display_surface = pygame.display.set_mode(resolution)
 pygame.display.set_caption('ICS4U Tile Based Game')
 pygame.display.set_icon(pygame.image.load('resources/icon.png'))
 
-
+# initialize the HUD
+hud = tools.HudOverlay()
+hud.update_money(25)
 display_surface.blit(level.background, (0, 0))  # draw background to screen
 
 effect = 0
-
 while True:
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -102,7 +102,13 @@ while True:
 
     # effects
     if effect:
-        display_surface.blit(tools.fade_in(resolution, effect), (0, 0))
+        display_surface.blit(tools.fade(resolution, effect), (0, 0))
         effect -= 1
+
+    # HUD
+    display_surface.blit(hud.overlay, (8, 463))
+    display_surface.blit(hud.update_money(player.money), (88, 463))
+    display_surface.blit(hud.update_health(player.health), (344, 463))
+
     pygame.display.update()
     main_clock.tick(60)

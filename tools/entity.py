@@ -6,8 +6,8 @@ class Entities(object):
     def __init__(self, entity_file, player, tile_size):
         """
         Populates a list of entities from the entities file
-        :param entity_file: The name of the entity file to read from.
-        :return: Entities object
+        :param entity_file: string -- the file to read entities from
+        :return: None
         """
         self.entity_list = []
         self.player = player
@@ -58,8 +58,8 @@ class Entity(object):
         :param tile_size: integer tuple
         :param flag: string or None -- identifies what level to jump to
         :param position: integer tuple
-        :param sprites: array of sprites
-        :param updates_per_frame: integer indicating the number of position updates per sprite frame change
+        :param sprites: list of lists of sprites
+        :param updates_per_frame: integer -- the number of position updates per sprite frame
         :return: None
         """
         self.x = position[0] * tile_size[0]
@@ -87,7 +87,7 @@ class Entity(object):
     def update(self, direction=None, force_update=False):
         """
         Updates current sprite (in animation cycle) and direction of sprite
-        :param direction: The direction of sprite: 0: N, 1: E, 2: S, 3: W
+        :param direction: integer -- direction of sprite: 0 N, 1 E, 2 S and 3 W
         :return: None
         """
         self.update_counter += 1
@@ -107,17 +107,19 @@ class Entity(object):
 
 class Player(Entity):
     """
-    The Player class contains additional variables and sprites.
+    Creates the Player from Entity and a predefined spritesheet.
+    Additional values are health and money.
     """
-
     def __init__(self):
         """
-        Initializes the entity at no position in particular -- placing is done by the level
+        Creates the player
         """
         player_sheet = tools.SpriteSheet('resources/player.png').get_sheet((0, 0, 16, 16), 8, 3)
         sprite_list = [player_sheet[0][:4], player_sheet[1][4:], player_sheet[0][4:], player_sheet[1][:4]]
 
         Entity.__init__(self, tile_size=(32, 32), sprites=sprite_list, updates_per_frame=6)
+        self.money = 0
+        self.health = 16
 
 
 class Door(Entity):

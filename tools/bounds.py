@@ -2,15 +2,15 @@ import pygame
 
 
 class BoundMap(object):
-    def __init__(self, boundmap, tile_size):
+    def __init__(self, bound_map, tile_size):
         """
         Creates a list of (type, boundary) tuples given an input boundary map and the size of each tile
-        :param boundmap: File containing a type and two points per line
-        :param tile_size: String, one char
+        :param bound_map: string -- the name of the file to open
+        :param tile_size: 1 char string
         :return: None
         """
         # convert coordinates to integers
-        with open(boundmap, 'r') as file:
+        with open(bound_map, 'r') as file:
             self.height_dict = {}
 
             # create rectangle from coordinates
@@ -31,8 +31,8 @@ class BoundMap(object):
     def create_bounds(self, coords, tile_size):
         """
         Creates a boundary rectangle given two points and size
-        :param coords: Integer 4-tuple
-        :param tile_size: Integer tuple
+        :param coords: integer 4-tuple
+        :param tile_size: integer tuple
         :return: pygame.Rect
         """
         tx, ty = tile_size[0], tile_size[1]
@@ -41,8 +41,8 @@ class BoundMap(object):
     def point_membership(self, point, height):
         """
         Checks if a point exists within a certain bounds
-        :param point: Integer tuple
-        :param height: The height level to check against.
+        :param point: integer tuple
+        :param height: integer -- the height of the level to check against
         :return: Boolean
         """
         for i in self.height_dict[height]:
@@ -53,9 +53,9 @@ class BoundMap(object):
     def rect_membership(self, sprite_pos, tile_size, entity):
         """
         Checks if a rectangle exists within
-        :param sprite_pos: Top left corner of the sprite
-        :param tile_size: Width and height of the sprite
-        :param entity: The entity to check the position of
+        :param sprite_pos: integer tuple -- the top left corner of the sprite
+        :param tile_size: integer tuple -- (width, height) of the sprite
+        :param entity: tools.Entity (or subclass) -- The entity to check the position of
         :return: Boolean
         """
         height = entity.height
@@ -83,9 +83,9 @@ class BoundMap(object):
     def add_to_dict(self, rect, bound_type, height):
         """
         Appends (Rect, type) tuple to list of bounds in bounds_dict[height]
-        :param rect: The rectangle of bounds
-        :param bound_type: The type of bounds (door, stairs, etc)
-        :param height: Height level of the current bound
+        :param rect: pygame.Rect -- the rectangle defining bounds
+        :param bound_type: 1 char string -- the ID of the Entity type (door, stairs, etc)
+        :param height: integer -- the current height
         :return: None
         """
         try:
