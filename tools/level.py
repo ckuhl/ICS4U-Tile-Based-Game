@@ -4,6 +4,8 @@ import tools.screen
 class Level(object):
     def __init__(self, level, resolution, tile_size, player):
         # initialize background
+        self.resolution = resolution
+        self.fader = 0
         sheet = tools.SpriteSheet('resources/background1.png')
         background_sprites = sheet.get_sheet((0, 0, 16, 16), 10, 10)
 

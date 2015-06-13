@@ -84,7 +84,7 @@ class Entity(object):
             self.updates_per_frame = updates_per_frame
             self.update_counter = 0
 
-    def update(self, direction=None):
+    def update(self, direction=None, force_update=False):
         """
         Updates current sprite (in animation cycle) and direction of sprite
         :param direction: The direction of sprite: 0: N, 1: E, 2: S, 3: W
@@ -92,13 +92,17 @@ class Entity(object):
         """
         self.update_counter += 1
         self.rect = pygame.Rect(self.x, self.y, self.width, self.length)
+
+        if force_update:
+            self.update_counter = self.updates_per_frame
+
+        if direction is not None:
+            self.dir = direction
+
         if self.update_counter == self.updates_per_frame:
             self.update_counter = 0
             self.current_frame = (self.current_frame + 1) % (self.frames)
             self.current_sprite = self.sprites[self.dir][self.current_frame]
-
-        if direction is not None:
-            self.dir = direction
 
 
 class Player(Entity):

@@ -46,53 +46,63 @@ pygame.display.set_icon(pygame.image.load('resources/icon.png'))
 
 display_surface.blit(level.background, (0, 0))  # draw background to screen
 
+effect = 0
+
 while True:
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
 
-    # handle keyboard input
-    diagonal_check = False
-    keys = pygame.key.get_pressed()
-    if keys[K_UP]:
-        if level.bounds.rect_membership((player.x, player.y - 1), tile_size, player):
-            player.y -= 1
-        diagonal_check = True
-        player.update(0)
+    if not effect:
+        # handle keyboard input
+        diagonal_check = False
+        keys = pygame.key.get_pressed()
+        if keys[K_UP]:
+            if level.bounds.rect_membership((player.x, player.y - 1), tile_size, player):
+                player.y -= 1
+            diagonal_check = True
+            player.update(0)
 
-    elif keys[K_DOWN]:
-        if level.bounds.rect_membership((player.x, player.y + 1), tile_size, player):
-            player.y += 1
-        diagonal_check = True
-        player.update(2)
+        elif keys[K_DOWN]:
+            if level.bounds.rect_membership((player.x, player.y + 1), tile_size, player):
+                player.y += 1
+            diagonal_check = True
+            player.update(2)
 
-    if keys[K_LEFT]:
-        if level.bounds.rect_membership((player.x - 1, player.y), tile_size, player):
-            player.x -= 1
-        if not diagonal_check:
-            player.update(3)
+        if keys[K_LEFT]:
+            if level.bounds.rect_membership((player.x - 1, player.y), tile_size, player):
+                player.x -= 1
+            if not diagonal_check:
+                player.update(3)
 
-    elif keys[K_RIGHT]:
-        if level.bounds.rect_membership((player.x + 1, player.y), tile_size, player):
-            player.x += 1
-        if not diagonal_check:
-            player.update(1)
+        elif keys[K_RIGHT]:
+            if level.bounds.rect_membership((player.x + 1, player.y), tile_size, player):
+                player.x += 1
+            if not diagonal_check:
+                player.update(1)
 
-    # check for collisions with doors
-    collisions = level.entities.collisions()
-    if collisions:
-        for i in collisions:
-            if i.flag == 'level2':
-                player.update(2)
-                level = tools.Level('level2', resolution, tile_size, player)
-            elif i.flag == 'level1':
-                player.update(2)
-                level = tools.Level('level1', resolution, tile_size, player)
+        # check for collisions with doors
+        collisions = level.entities.collisions()
+        if collisions:
+            for i in collisions:
+                if i.flag == 'level2':
+                    effect = 64
+                    level = tools.Level('level2', resolution, tile_size, player)
+                    player.update(2, force_update=True)
+
+                elif i.flag == 'level1':
+                    effect = 64
+                    level = tools.Level('level1', resolution, tile_size, player)
+                    player.update(2, force_update=True)
 
     # back-to-front blitting of images
     display_surface.blit(level.background, (0, 0))
     display_surface.blit(player.current_sprite, (player.x, player.y - 8))  # y shifted down 8 px to look proper
 
+    # effects
+    if effect:
+        display_surface.blit(tools.fade_in(resolution, effect), (0, 0))
+        effect -= 1
     pygame.display.update()
     main_clock.tick(60)
