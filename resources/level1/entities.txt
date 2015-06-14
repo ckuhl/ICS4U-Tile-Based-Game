@@ -1,2 +1,3 @@
-P 7 6
-D 8 5 level2
+P 7 6 1
+D 8 5 1 level2
+C 8 7 1

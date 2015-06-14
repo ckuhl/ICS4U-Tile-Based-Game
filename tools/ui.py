@@ -9,7 +9,6 @@ class HudOverlay(object):
         """
         self.ui_sheet = tools.spritesheet.SpriteSheet('resources/ui_hud.png').get_sheet((0, 0, 8, 16), 16, 6)
         self.overlay = pygame.Surface((511, 32))
-        print(type(self.overlay))
         money_base = [26, 27, 34, 35, 27, 0, 1, 0, 1, 0, 1, 0, 1, 27, 28]
         health_base = [26, 27, 38, 39, 27, 74, 74, 74, 74, 74, 74, 74, 74, 27, 28]
 

@@ -19,8 +19,9 @@ B1.7 demonstrate the ability to use shared resources to manage source code effec
 B2.2 demonstrate the ability to meet project goals and deadlines by managing individual time during a group project;
 
 C1.1 decompose a problem into modules, classes, or abstract data types (e.g., stack, queue, dictionary) using an
-     object-oriented design methodology (e.g., CRC [Class Responsibility Collaborator] or UML [Unified Modeling Language]);
-C1.4 apply the principle of reusability in program design (e.g., in modules, subprograms, classes, methods, and
+     object-oriented design methodology (e.g., CRC [Class Responsibility Collaborator] or UML [Unified Modeling
+     Language]);
+C1.4 apply the principle of re-usability in program design (e.g., in modules, subprograms, classes, methods, and
      inheritance).
 """
 import tools
@@ -41,10 +42,13 @@ main_clock = pygame.time.Clock()
 display_surface = pygame.display.set_mode(resolution)
 pygame.display.set_caption('ICS4U Tile Based Game')
 pygame.display.set_icon(pygame.image.load('resources/icon.png'))
+pygame.mixer.music.load('resources/background.ogg')
+pygame.mixer.music.play()
 
 # initialize the HUD
 hud = tools.HudOverlay()
 hud.update_money(25)
+
 display_surface.blit(level.background, (0, 0))  # draw background to screen
 
 effect = 0
@@ -59,46 +63,47 @@ while True:
         diagonal_check = False
         keys = pygame.key.get_pressed()
         if keys[K_UP]:
-            if level.bounds.rect_membership((player.x, player.y - 1), tile_size, player):
-                player.y -= 1
+            if level.bounds.rect_membership((player.hitbox.x, player.hitbox.y - 1), (player.hitbox.w, player.hitbox.h), player):
+                player.pos[1] -= 1
             diagonal_check = True
-            player.update(0)
+            player.update(1)
 
         elif keys[K_DOWN]:
-            if level.bounds.rect_membership((player.x, player.y + 1), tile_size, player):
-                player.y += 1
+            if level.bounds.rect_membership((player.hitbox.x, player.hitbox.y + 1), (player.hitbox.w, player.hitbox.h), player):
+                player.pos[1] += 1
             diagonal_check = True
-            player.update(2)
+            player.update(3)
 
         if keys[K_LEFT]:
-            if level.bounds.rect_membership((player.x - 1, player.y), tile_size, player):
-                player.x -= 1
+            if level.bounds.rect_membership((player.hitbox.x - 1, player.hitbox.y), (player.hitbox.w, player.hitbox.h), player):
+                player.pos[0] -= 1
             if not diagonal_check:
-                player.update(3)
+                player.update(4)
 
         elif keys[K_RIGHT]:
-            if level.bounds.rect_membership((player.x + 1, player.y), tile_size, player):
-                player.x += 1
+            if level.bounds.rect_membership((player.hitbox.x + 1, player.hitbox.y), (player.hitbox.w, player.hitbox.h), player):
+                player.pos[0] += 1
             if not diagonal_check:
-                player.update(1)
+                player.update(2)
 
         # check for collisions with doors
         collisions = level.entities.collisions()
         if collisions:
             for i in collisions:
-                if i.flag == 'level2':
+                if i.flag in {'level1', 'level2'}:
                     effect = 64
-                    level = tools.Level('level2', resolution, tile_size, player)
-                    player.update(2, force_update=True)
-
-                elif i.flag == 'level1':
-                    effect = 64
-                    level = tools.Level('level1', resolution, tile_size, player)
-                    player.update(2, force_update=True)
+                    level = tools.Level(i.flag, resolution, tile_size, player)
+                    player.update(3, force_update=True)
 
     # back-to-front blitting of images
     display_surface.blit(level.background, (0, 0))
-    display_surface.blit(player.current_sprite, (player.x, player.y - 8))  # y shifted down 8 px to look proper
+
+    # blit all items
+    for i in level.entities.entity_list:
+        if type(i) != tools.entity.Door:
+            display_surface.blit(i.current_sprite, i.pos)
+            i.update()
+    display_surface.blit(player.current_sprite, (player.pos[0], player.pos[1]))  # y shifted down 8 px
 
     # effects
     if effect:
