@@ -1,5 +1,6 @@
 import pygame
 import tools.spritesheet
+import pickle
 
 class HudOverlay(object):
     def __init__(self):
@@ -71,3 +72,24 @@ class HudOverlay(object):
             health_overlay.blit(i, (16 * n, 0))
 
         return health_overlay
+
+
+class Score(object):
+    """
+    Loads previous high scores into memory, and saves current high score to pickle.
+    """
+    def __init__(self):
+        """
+        Loads the previous high score from pickle.
+        :return: None
+        """
+        self.high_score = int(pickle.load(open('resources/high_score.p', 'rb')))
+        self.score = 0
+
+    def save(self):
+        """
+        Saves the current score to pickle, if its a high score.
+        :return: None
+        """
+        if self.score > self.high_score:
+            pickle.dump(self.score, open('resources/high_score.p', 'wb'))

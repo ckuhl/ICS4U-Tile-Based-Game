@@ -35,6 +35,8 @@ tile_size = (32, 32)
 
 player = tools.Player()
 level = tools.Level('level1', resolution, tile_size, player)
+score = tools.Score()
+high_score = tools.draw_score(score.high_score)  # surface of the high score
 
 # initialize PyGame
 pygame.init()
@@ -58,10 +60,13 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+
     display_surface.blit(menu.background, (0, 0))
+    display_surface.blit(high_score, (260, 438))
 
     mouse_buttons = pygame.mouse.get_pressed()
     mouse_pos = pygame.mouse.get_pos()
+
     if menu.start_rect.collidepoint(mouse_pos):
         display_surface.blit(menu.start_button, menu.start_pos)
         if mouse_buttons[0]:
@@ -76,11 +81,12 @@ while True:
     pygame.display.update()
     main_clock.tick(60)
 
-
+# game logic loop
 effect = 32
 while True:
     for event in pygame.event.get():
         if event.type == QUIT:
+            score.save()
             pygame.quit()
             sys.exit()
 
@@ -112,21 +118,18 @@ while True:
             if not diagonal_check:
                 player.update(2)
 
-        # check for collisions with doors
+        # check for collisions
         collisions = level.entities.collisions()
         if collisions:
             for i in collisions:
-                if i.flag in {'level1', 'level2'}:
+                if i.flag in {'level1', 'level2'}:  # collision with door
                     effect = 32
                     level = tools.Level(i.flag, resolution, tile_size, player)
                     player.update(3, force_update=True)
                 elif i.flag == 'coin':
+                    i.die()
                     level.entities.kill(i)
-                    # TODO: Move this into Entity class eventually
-                    coin_sound = pygame.mixer.Sound('resources/coin.wav')
-                    coin_sound.set_volume(0.4)
-                    coin_sound.play()
-                    player.money += 5
+                    score.score += 5
 
     # back-to-front blitting of images
     display_surface.blit(level.background, (0, 0))
@@ -146,7 +149,7 @@ while True:
 
     # HUD
     display_surface.blit(hud.overlay, (8, 463))
-    display_surface.blit(hud.update_money(player.money), (88, 463))
+    display_surface.blit(hud.update_money(score.score), (88, 463))
     display_surface.blit(hud.update_health(player.health), (344, 463))
 
     pygame.display.update()

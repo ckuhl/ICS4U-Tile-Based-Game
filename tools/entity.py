@@ -151,7 +151,6 @@ class Player(Entity):
         Entity.__init__(self, tile_size=(32, 32), hitbox=(4, 8, 24, 32), direction=2, )
         self.set_sprites(sprite_list, updates_per_frame=6)
 
-        self.money = 0
         self.health = 16
 
 
@@ -177,3 +176,12 @@ class Coin(Entity):
 
         self.flag = 'coin'
         self.health = 1
+
+    def die(self):
+        """
+        Plays death sound effect.
+        :return: None
+        """
+        death_sound = pygame.mixer.Sound('resources/coin.wav')
+        death_sound.set_volume(0.3)
+        death_sound.play()

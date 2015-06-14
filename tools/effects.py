@@ -28,3 +28,26 @@ class MainMenu(object):
         self.quit_button = pygame.transform.scale2x(button_sheet[1])
         self.quit_pos = (292, 330)
         self.quit_rect = pygame.Rect(self.quit_pos, (38, 44))
+
+
+def draw_score(score):
+    """
+    Given an inputted score, constructs the score out of sprites
+    :param score: integer -- high score
+    :return: pygame.Surface -- the high score in sprites
+    """
+    text_sheet = tools.spritesheet.SpriteSheet('resources/font.png').get_sheet((0, 0, 7, 11), 15, 7)
+    score = str(score)
+    correlations = {'1': 10, '2': 11, '3': 12, '4': 13, '5': 14, '6': 23, '7': 24, '8': 25, '9': 26, '0': 27}
+    indexes = [correlations[x] for x in score]
+
+    number_sprites = [pygame.transform.scale2x(text_sheet[x // 15][x % 15]) for x in indexes]
+    surface_width = 16 * len(score)
+
+    score_surface = pygame.Surface((surface_width, 22), pygame.SRCALPHA)
+
+    for n, i in enumerate(number_sprites):
+        score_surface.blit(i, (n * 16, 0))
+
+    return score_surface
+
