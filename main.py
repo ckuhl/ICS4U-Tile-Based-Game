@@ -51,7 +51,33 @@ hud.update_money(25)
 
 display_surface.blit(level.background, (0, 0))  # draw background to screen
 
-effect = 0
+menu = tools.MainMenu()
+# main menu
+while True:
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
+    display_surface.blit(menu.background, (0, 0))
+
+    mouse_buttons = pygame.mouse.get_pressed()
+    mouse_pos = pygame.mouse.get_pos()
+    if menu.start_rect.collidepoint(mouse_pos):
+        display_surface.blit(menu.start_button, menu.start_pos)
+        if mouse_buttons[0]:
+            break
+
+    elif menu.quit_rect.collidepoint(mouse_pos):
+        display_surface.blit(menu.quit_button, menu.quit_pos)
+        if mouse_buttons[0]:
+            pygame.quit()
+            sys.exit()
+
+    pygame.display.update()
+    main_clock.tick(60)
+
+
+effect = 32
 while True:
     for event in pygame.event.get():
         if event.type == QUIT:
