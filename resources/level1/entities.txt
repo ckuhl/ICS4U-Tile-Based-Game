@@ -1,3 +1,4 @@
 P 7 6 1
 D 8 5 1 level2
-C 8 7 1
+C 8 7 1 small
+C 9 4 2 large

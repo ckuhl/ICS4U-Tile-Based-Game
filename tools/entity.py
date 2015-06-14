@@ -39,7 +39,9 @@ class Entities(object):
         elif entity_id == 'D':
             return Door(pos, flag)
         elif entity_id == 'C':
-            return Coin(pos)
+            return Coin(pos, flag)
+        elif entity_id == 'S':
+            return Sneeb(pos, flag)
         else:
             raise KeyError
 
@@ -167,15 +169,20 @@ class Coin(Entity):
     """
     The Coin class defines a coin.
     """
-    def __init__(self, tile_pos):
-        coin_sheet = tools.SpriteSheet('resources/coins.png').get_line((0, 0, 16, 16), 8)
+    def __init__(self, tile_pos, flag):
+        coin_sheet = tools.SpriteSheet('resources/coins.png').get_sheet((0, 0, 16, 16), 8, 4)
+        self.flag = flag
 
-        sprite_list = coin_sheet[:4]
-        Entity.__init__(self, tile_size=(32, 32), tile_pos=tile_pos, hitbox=(12, 20, 4, 4))
+        if self.flag == 'small':
+            sprite_list = coin_sheet[2][:4]
+        else:
+            sprite_list = coin_sheet[0][:4]
+
+        Entity.__init__(self, tile_size=(32, 32), tile_pos=tile_pos, hitbox=(12, 20, 4, 4), flag=flag)
+
         self.set_sprites(sprites=sprite_list, updates_per_frame=12)
-
-        self.flag = 'coin'
         self.health = 1
+        self.pos[1] -= 10  # shift the sprite up (to the middle of a tile)
 
     def die(self):
         """
@@ -184,4 +191,18 @@ class Coin(Entity):
         """
         death_sound = pygame.mixer.Sound('resources/coin.wav')
         death_sound.set_volume(0.3)
+        death_sound.play()
+
+class Sneeb(Entity):
+    def __init__(self, tile_pos, flag):
+        sneeb_sprite = pygame.image.load('resources/sneeb.png')
+        self.flag = flag
+
+        Entity.__init__(self, (32, 32), tile_pos=tile_pos, hitbox=(0, -16, 32, 32), flag=flag)
+        self.current_sprite = sneeb_sprite
+        self.pos[1] -= 8
+
+    def die(self):
+        death_sound = pygame.mixer.Sound('resources/coin.wav')
+        death_sound.set_volume(0.6)
         death_sound.play()

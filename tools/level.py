@@ -14,7 +14,7 @@ class Level(object):
         # initialize background
         self.resolution = resolution
         self.fader = 0
-        sheet = tools.SpriteSheet('resources/background1.png')
+        sheet = tools.SpriteSheet('resources/background.png')
         background_sprites = sheet.get_sheet((0, 0, 16, 16), 10, 10)
 
         background_map = tools.Screen(resolution, tile_size)

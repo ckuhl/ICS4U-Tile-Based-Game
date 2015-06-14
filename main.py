@@ -32,11 +32,12 @@ from pygame.locals import *
 # constants
 resolution = (511, 511)
 tile_size = (32, 32)
+win, lose = False, False
 
 player = tools.Player()
 level = tools.Level('level1', resolution, tile_size, player)
 score = tools.Score()
-high_score = tools.draw_score(score.high_score)  # surface of the high score
+high_score = tools.draw_text(score.high_score)  # surface of the high score
 
 # initialize PyGame
 pygame.init()
@@ -126,10 +127,23 @@ while True:
                     effect = 32
                     level = tools.Level(i.flag, resolution, tile_size, player)
                     player.update(3, force_update=True)
-                elif i.flag == 'coin':
+
+                elif i.flag == 'small' or i.flag == 'large':
                     i.die()
                     level.entities.kill(i)
-                    score.score += 5
+                    if i.flag == 'small':
+                        score.score += 1
+                    else:
+                        score.score += 5
+
+                elif i.flag == 'sneeb':
+                    i.die()
+                    level.entities.kill(i)
+                    score.score += 100
+                    win = True
+
+    if win or lose:
+        break
 
     # back-to-front blitting of images
     display_surface.blit(level.background, (0, 0))
@@ -154,3 +168,30 @@ while True:
 
     pygame.display.update()
     main_clock.tick(60)
+
+if win:
+    win_text = tools.draw_text('You win!')
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                score.save()
+                pygame.quit()
+                sys.exit()
+
+        display_surface.fill((0, 0, 0))
+        display_surface.blit(win_text, (0, 0))
+        pygame.display.update()
+        main_clock.tick(60)
+else:
+    lose_text = tools.draw_text('You lose...')
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                score.save()
+                pygame.quit()
+                sys.exit()
+
+        display_surface.fill((0, 0, 0))
+        display_surface.blit(lose_text, (0, 0))
+        pygame.display.update()
+        main_clock.tick(60)
