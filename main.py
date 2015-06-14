@@ -169,29 +169,41 @@ while True:
     pygame.display.update()
     main_clock.tick(60)
 
+# end game screen
+effect = 64
+timer = 0
 if win:
-    win_text = tools.draw_text('You win!')
-    while True:
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                score.save()
-                pygame.quit()
-                sys.exit()
-
-        display_surface.fill((0, 0, 0))
-        display_surface.blit(win_text, (0, 0))
-        pygame.display.update()
-        main_clock.tick(60)
+    text = tools.draw_text('You win!')
 else:
-    lose_text = tools.draw_text('You lose...')
-    while True:
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                score.save()
-                pygame.quit()
-                sys.exit()
+    text = tools.draw_text('You lose...')
+text_rect = text.get_bounding_rect()
 
-        display_surface.fill((0, 0, 0))
-        display_surface.blit(lose_text, (0, 0))
-        pygame.display.update()
-        main_clock.tick(60)
+score_text = tools.draw_text('Your score is ' + str(score.score) + '.')
+score_rect = score_text.get_bounding_rect()
+
+continue_text = tools.draw_text('Press any key to quit.')
+continue_rect = continue_text.get_bounding_rect()
+while True:
+    keys = pygame.key.get_pressed()
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            score.save()
+            pygame.quit()
+            sys.exit()
+    display_surface.fill((0, 0, 0))
+    display_surface.blit(text, (255 - text_rect.w // 2, (255 - text_rect.h // 2) - 22))
+    display_surface.blit(score_text, (255 - score_rect.w // 2, (255 - score_rect.h // 2)))
+
+    if effect:
+        display_surface.blit(tools.fade(resolution, effect // 2), (0, 0))
+        effect -= 1
+
+    if timer > 180:
+        display_surface.blit(continue_text, (255 - continue_rect.w // 2, 511 - continue_rect.h))
+        if sum(keys):  # check if any keys are pressed            score.save()
+            pygame.quit()
+            sys.exit()
+
+    timer += 1
+    pygame.display.update()
+    main_clock.tick(60)
