@@ -9,5 +9,5 @@ def fade(resolution, darkness):
     """
     fader_surface = pygame.Surface(resolution)
     fader_surface.fill((0, 0, 0))
-    fader_surface.set_alpha(darkness * 8)
+    fader_surface.set_alpha(darkness * 16)
     return fader_surface

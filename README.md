@@ -82,6 +82,7 @@ is determined by an inputted integer from 0 to 64, with 0 being clear, and 64 be
 ## Art sources
 background1.png and ui_hud.png by [Buch](http://opengameart.org/users/buch), public domain  
 player.png by [Skylar1146](http://opengameart.org/users/Skylar1146), public domain  
-background.ogg by [yd](http://opengameart.org/users/yd), public domain
-coins.png by [patvanmackelberg](https://twitter.com/helplessisland), public domain
-icon.png by [k-u-h-l](https://github.com/k-u-h-l), public domain
+background.ogg by [yd](http://opengameart.org/users/yd), public domain  
+coins.png by [patvanmackelberg](https://twitter.com/helplessisland), public domain  
+icon.png by [k-u-h-l](https://github.com/k-u-h-l), public domain  
+coin.wav by [Luke.RUSTLTD](http://opengameart.org/users/lukerustltd), public domain  

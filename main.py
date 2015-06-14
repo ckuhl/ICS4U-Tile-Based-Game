@@ -91,9 +91,16 @@ while True:
         if collisions:
             for i in collisions:
                 if i.flag in {'level1', 'level2'}:
-                    effect = 64
+                    effect = 32
                     level = tools.Level(i.flag, resolution, tile_size, player)
                     player.update(3, force_update=True)
+                elif i.flag == 'coin':
+                    level.entities.kill(i)
+                    # TODO: Move this into Entity class eventually
+                    coin_sound = pygame.mixer.Sound('resources/coin.wav')
+                    coin_sound.set_volume(0.4)
+                    coin_sound.play()
+                    player.money += 5
 
     # back-to-front blitting of images
     display_surface.blit(level.background, (0, 0))
@@ -103,6 +110,7 @@ while True:
         if type(i) != tools.entity.Door:
             display_surface.blit(i.current_sprite, i.pos)
             i.update()
+
     display_surface.blit(player.current_sprite, (player.pos[0], player.pos[1]))  # y shifted down 8 px
 
     # effects

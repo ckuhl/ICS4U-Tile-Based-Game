@@ -43,6 +43,9 @@ class Entities(object):
         else:
             raise KeyError
 
+    def kill(self, entity_to_remove):
+        self.entity_list.remove(entity_to_remove)
+
     def collisions(self):
         return [self.entity_list[y] for y in self.player.hitbox.collidelistall([x.hitbox for x in self.entity_list])]
 
@@ -75,6 +78,7 @@ class Entity(object):
         self.flag = flag
         self.height = height
         self.direction = direction
+        self.health = float('inf')
 
         # sprite setup stuff
         self.current_frame = 0
@@ -130,7 +134,6 @@ class Entity(object):
                 self.current_sprite = self.sprites[self.direction - 1][self.current_frame]
             else:
                 self.current_sprite = self.sprites[self.current_frame]
-    # TODO: Add Entity.die() function to handle deleting objects
 
 
 class Player(Entity):
@@ -171,3 +174,6 @@ class Coin(Entity):
         sprite_list = coin_sheet[:4]
         Entity.__init__(self, tile_size=(32, 32), tile_pos=tile_pos, hitbox=(12, 20, 4, 4))
         self.set_sprites(sprites=sprite_list, updates_per_frame=12)
+
+        self.flag = 'coin'
+        self.health = 1
