@@ -84,9 +84,10 @@ is determined by an inputted integer from 0 to 64, with 0 being clear, and 64 be
 background.png, sneeb.png, font.png, ui_hud.png, menu_buttons.png, and
 menu_base.png by [Buch](http://opengameart.org/users/buch), public domain  
 player.png by [Skylar1146](http://opengameart.org/users/Skylar1146), public domain  
-coins.png by [patvanmackelberg](https://twitter.com/helplessisland), public domain  
+coins.png and slime.png by [patvanmackelberg](https://twitter.com/helplessisland), public domain  
 icon.png by [k-u-h-l](https://github.com/k-u-h-l), public domain  
 
 ### Sounds & Music
 background.ogg by [yd](http://opengameart.org/users/yd), public domain  
 coin.wav by [Luke.RUSTLTD](http://opengameart.org/users/lukerustltd), public domain  
+hurt.ogg by [TinyWorlds](http://tinyworlds.com), public domain

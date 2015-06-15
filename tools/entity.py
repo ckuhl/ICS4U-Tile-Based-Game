@@ -42,6 +42,8 @@ class Entities(object):
             return Coin(pos, flag)
         elif entity_id == 'S':
             return Sneeb(pos, flag)
+        elif entity_id == 'L':
+            return Slime(pos, flag)
         else:
             raise KeyError
 
@@ -150,11 +152,18 @@ class Player(Entity):
         player_sheet = tools.SpriteSheet('resources/player.png').get_sheet((0, 0, 16, 16), 8, 3)
         sprite_list = [player_sheet[0][:4], player_sheet[1][4:], player_sheet[0][4:], player_sheet[1][:4]]
 
-        Entity.__init__(self, tile_size=(32, 32), hitbox=(4, 8, 24, 32), direction=2, )
+        Entity.__init__(self, tile_size=(32, 32), hitbox=(9, 8, 14, 24), direction=2, )
         self.set_sprites(sprite_list, updates_per_frame=6)
 
         self.health = 16
 
+    def hurt(self, damage):
+        self.health -= damage
+        if self.health < 0:
+            self.health = 0
+        hurt_sound = pygame.mixer.Sound('resources/hurt.ogg')
+        hurt_sound.set_volume(0.6)
+        hurt_sound.play()
 
 class Door(Entity):
     """
@@ -178,7 +187,7 @@ class Coin(Entity):
         else:
             sprite_list = coin_sheet[0][:4]
 
-        Entity.__init__(self, tile_size=(32, 32), tile_pos=tile_pos, hitbox=(12, 20, 4, 4), flag=flag)
+        Entity.__init__(self, tile_size=(32, 32), tile_pos=tile_pos, hitbox=(13, 23, 6, 6), flag=flag)
 
         self.set_sprites(sprites=sprite_list, updates_per_frame=12)
         self.health = 1
@@ -190,19 +199,43 @@ class Coin(Entity):
         :return: None
         """
         death_sound = pygame.mixer.Sound('resources/coin.wav')
-        death_sound.set_volume(0.3)
+        death_sound.set_volume(0.2)
         death_sound.play()
 
+
 class Sneeb(Entity):
+    """
+    The eponymous item, it functions as a coin.
+    """
     def __init__(self, tile_pos, flag):
+        """
+        Initializes the item. It only has one sprite/frame, so it is manually set.
+        """
         sneeb_sprite = pygame.image.load('resources/sneeb.png')
         self.flag = flag
 
-        Entity.__init__(self, (32, 32), tile_pos=tile_pos, hitbox=(0, -16, 32, 32), flag=flag)
+        Entity.__init__(self, (32, 32), tile_pos=tile_pos, hitbox=(2, 4, 28, 26), flag=flag)
         self.current_sprite = sneeb_sprite
-        self.pos[1] -= 8
+        self.pos[1] -= 4
 
     def die(self):
+        """
+        Plays death sound effect.
+        :return: None
+        """
         death_sound = pygame.mixer.Sound('resources/coin.wav')
         death_sound.set_volume(0.6)
         death_sound.play()
+
+
+class Slime(Entity):
+    def __init__(self, tile_pos, flag):
+        """
+        Initializes slime entity
+        """
+        slime_sheet = tools.SpriteSheet('resources/slime.png').get_sheet((0, 0, 16, 16), 4, 4)
+        self.flag = flag
+
+        Entity.__init__(self, (32, 32), tile_pos=tile_pos, hitbox=(8, 20, 16, 12), flag=flag, direction=1)
+        self.set_sprites(sprites=slime_sheet, updates_per_frame=8)
+        self.health = 1

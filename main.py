@@ -142,19 +142,28 @@ while True:
                     score.score += 100
                     win = True
 
+                elif i.flag == 'slime':
+                    player.hurt(1)
+                    if player.health == 0:
+                        lose = True
+
+                    i.health -= 1
+                    if i.health == 0:
+                        level.entities.kill(i)
+
     if win or lose:
         break
 
     # back-to-front blitting of images
     display_surface.blit(level.background, (0, 0))
 
-    # blit all items
+    # blit all entities
     for i in level.entities.entity_list:
         if type(i) != tools.entity.Door:
             display_surface.blit(i.current_sprite, i.pos)
             i.update()
 
-    display_surface.blit(player.current_sprite, (player.pos[0], player.pos[1]))  # y shifted down 8 px
+    display_surface.blit(player.current_sprite, (player.pos[0], player.pos[1]))
 
     # effects
     if effect:
@@ -200,7 +209,8 @@ while True:
 
     if timer > 180:
         display_surface.blit(continue_text, (255 - continue_rect.w // 2, 511 - continue_rect.h))
-        if sum(keys):  # check if any keys are pressed            score.save()
+        if sum(keys):  # check if any keys are pressed
+            score.save()
             pygame.quit()
             sys.exit()
 
