@@ -1,3 +1,20 @@
-P 4 3 1
-D 7 2 1 level1
-S 5 4 1 sneeb
+P  6  7 1
+D  7  2 1 level3
+C  2  3 1 small
+C  4  3 1 small
+C  6  3 1 small
+C  2  5 1 small
+C  2  7 1 small
+C  3  8 1 small
+C 12  3 1 large
+C 12  5 1 large
+C 12  7 1 large
+C 11  8 1 large
+C 10  3 1 large
+C  8  3 1 large
+L 10  8 1 slime
+L 12  8 1 slime
+L 12  6 1 slime
+L 12  4 1 slime
+L 11  3 1 slime
+L  9  3 1 slime

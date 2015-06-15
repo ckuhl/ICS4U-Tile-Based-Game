@@ -124,7 +124,7 @@ while True:
         collisions = level.entities.collisions()
         if collisions:
             for i in collisions:
-                if i.flag in {'level1', 'level2'}:  # collision with door
+                if i.flag in {'level1', 'level2', 'level3', 'level4'}:  # collision with door(s)
                     effect = 32
                     level = tools.Level(i.flag, resolution, tile_size, player)
                     player.update(3, force_update=True)
@@ -140,7 +140,7 @@ while True:
                 elif i.flag == 'sneeb':
                     i.die()
                     level.entities.kill(i)
-                    score.score += 100
+                    score.score += 10
                     win = True
 
                 elif i.flag == 'slime':

@@ -56,7 +56,7 @@ class HudOverlay(object):
         :return: pygame.Surface
         """
         health_bar_base = []
-        health_overlay = pygame.Surface((128, 32))
+        health_overlay = pygame.Surface((128, 32), pygame.SRCALPHA)
 
         while value:
             if value > 1:
