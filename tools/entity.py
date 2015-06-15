@@ -165,6 +165,11 @@ class Player(Entity):
         hurt_sound.set_volume(0.6)
         hurt_sound.play()
 
+    def die(self):
+        death_sound = pygame.mixer.Sound('resources/lose.wav')
+        death_sound.set_volume(0.6)
+        death_sound.play()
+
 class Door(Entity):
     """
     The Door class is invisible, and serves only to detect if the place has collided with it.
@@ -223,8 +228,8 @@ class Sneeb(Entity):
         Plays death sound effect.
         :return: None
         """
-        death_sound = pygame.mixer.Sound('resources/coin.wav')
-        death_sound.set_volume(0.6)
+        death_sound = pygame.mixer.Sound('resources/win.wav')
+        death_sound.set_volume(0.1)
         death_sound.play()
 
 

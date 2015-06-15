@@ -91,3 +91,5 @@ icon.png by [k-u-h-l](https://github.com/k-u-h-l), public domain
 background.ogg by [yd](http://opengameart.org/users/yd), public domain  
 coin.wav by [Luke.RUSTLTD](http://opengameart.org/users/lukerustltd), public domain  
 hurt.ogg by [TinyWorlds](http://tinyworlds.com), public domain
+click.flac by [dawith](http://opengameart.org/users/dawith), public domain
+lose.wav and win.wav by anonymous, public domain

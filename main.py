@@ -71,6 +71,7 @@ while True:
     if menu.start_rect.collidepoint(mouse_pos):
         display_surface.blit(menu.start_button, menu.start_pos)
         if mouse_buttons[0]:
+            pygame.mixer.Sound('resources/click.ogg').play()
             break
 
     elif menu.quit_rect.collidepoint(mouse_pos):
@@ -145,6 +146,7 @@ while True:
                 elif i.flag == 'slime':
                     player.hurt(1)
                     if player.health == 0:
+                        player.die()
                         lose = True
 
                     i.health -= 1
@@ -157,13 +159,13 @@ while True:
     # back-to-front blitting of images
     display_surface.blit(level.background, (0, 0))
 
+    display_surface.blit(player.current_sprite, (player.pos[0], player.pos[1]))
+
     # blit all entities
     for i in level.entities.entity_list:
         if type(i) != tools.entity.Door:
             display_surface.blit(i.current_sprite, i.pos)
             i.update()
-
-    display_surface.blit(player.current_sprite, (player.pos[0], player.pos[1]))
 
     # effects
     if effect:
@@ -184,7 +186,7 @@ timer = 0
 if win:
     text = tools.draw_text('You win!')
 else:
-    text = tools.draw_text('You lose...')
+    text = tools.draw_text('You have died...')
 text_rect = text.get_bounding_rect()
 
 score_text = tools.draw_text('Your score is ' + str(score.score) + '.')
