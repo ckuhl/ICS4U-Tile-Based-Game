@@ -1,6 +1,11 @@
 # ICS4U-Tile-Based-Game
 
-My (work in progress) final project for ICS4U, a tile based game.
+My final project for ICS4U, a tile based game.
+
+## Screenshots
+![The main screen](/resources/screenshots/ss1.png?raw=true "Main screen")
+![Mid-way through](/resources/screenshots/ss2.png?raw=true "Mid-game")
+![The final level](/resources/screenshots/ss3.png?raw=true "Final level")
 
 ## What is it?
 A tile-based game, made to demonstrate the various skills learned in ICS4U:

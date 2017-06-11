@@ -42,7 +42,14 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+# PyCharm data
 .idea/
+
+# Compiled python files
 __pycache__/
 *.py[cod]
 *$py.class
+
+# VirtualEnvironment
+env/
+
